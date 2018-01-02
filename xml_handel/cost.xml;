@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<xbe:price-list xmlns:xbe="http://www.psol.com/xbe2/listing8.1">
+   <xbe:product>XML Training</xbe:product>
+   <xbe:price-quote price="999.00"  vendor="Playfield Training"/>
+   <xbe:price-quote price="699.00"  vendor="XMLi"/>
+   <xbe:price-quote price="799.00"  vendor="WriteIT"/>
+   <xbe:price-quote price="1999.00" vendor="Emailaholic"/>
+</xbe:price-list>
