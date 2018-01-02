@@ -166,17 +166,23 @@ all_data['TotalSF'] = all_data['TotalBsmtSF'] + all_data['1stFlrSF'] + all_data[
 
 
 ##接下来把属性数据的峰度偏度用box-cox降低一下.
-
+umeric_feats = all_data.dtypes[all_data.dtypes != "object"].index
+# Check the skew of all numerical features
+skewed_feats = all_data[numeric_feats].apply(lambda x: skew(x.dropna())).sort_values(ascending=False)
+print("\nSkew in numerical features: \n")
+skewness = pd.DataFrame({'Skew' :skewed_feats})
 skewness = skewness[abs(skewness) > 0.75]
 print("There are {} skewed numerical features to Box Cox transform".format(skewness.shape[0]))
 
 from scipy.special import boxcox1p
-
+from bayes_opt import BayesianOptimization
 skewed_features = skewness.index
 lam = 0.15
 for feat in skewed_features:
     # all_data[feat] += 1
     all_data[feat] = boxcox1p(all_data[feat], lam)
+
+# def lam
 
 # all_data[skewed_features] = np.log1p(all_data[skewed_features])
 
@@ -205,7 +211,7 @@ import lightgbm as lgb
 n_folds = 5
 def rmsle_cv(model):
     kf = KFold(n_folds, shuffle=True, random_state=42).get_n_splits(train.values)
-    #这个rmse
+    #这个rmse,crosevalidation
     rmse= np.sqrt(-cross_val_score(model, train.values, y_train, scoring="neg_mean_squared_error", cv = kf))
     return(rmse)
 
